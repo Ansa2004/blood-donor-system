@@ -15,6 +15,8 @@ import Register from "./pages/Register";
 import UserRegistration from "./pages/UserRegistration";
 import UserLogin from "./pages/UserLogin";
 
+import Logout from "./pages/Logout";
+
 
 
 
@@ -34,6 +36,7 @@ function App() {
         <Route path="/register" element={<Register />}/>
         <Route path="/user-register" element={<UserRegistration />}/>
         <Route path="/user-login" element={<UserLogin />}/>
+        <Route path="/logout" element={<Logout />} />
       </Routes>
     </BrowserRouter>
   );

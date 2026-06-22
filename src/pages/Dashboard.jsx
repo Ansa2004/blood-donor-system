@@ -1,5 +1,16 @@
 import { useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
+import hero from "../assets/herobanner.jpeg";
+
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer
+} from "recharts";
 
 function Dashboard() {
 
@@ -25,34 +36,42 @@ function Dashboard() {
 
   });
 
+  const chartData = Object.entries(
+    bloodGroupStats
+  ).map(([group, count]) => ({
+    bloodGroup: group,
+    donors: count,
+  }));
+
   return (
 
     <MainLayout>
 
-      <div className="container-fluid">
+      <div className="container-fluid px-4 py-3">
 
-        <h2 className="mb-4">
-          Dashboard
-        </h2>
+        {/* Hero Banner */}
 
-        {/* Dashboard Cards */}
+        <div className="hero-banner mb-4">
+
+          <img
+            src={hero}
+            alt="BDMS Banner"
+            className="hero-img"
+          />
+
+        </div>
+
+        {/* Statistics Cards */}
 
         <div className="row g-4 mb-4">
 
           <div className="col-md-3">
 
-            <div
-              className="card shadow border-0 text-center p-3"
-              style={{
-                background: "#ffeaea"
-              }}
-            >
+            <div className="stat-card stat-red">
 
-              <h1 className="text-danger">
-                {totalDonors}
-              </h1>
+              <h1>{totalDonors}</h1>
 
-              <h5>Total Donors</h5>
+              <p>Total Donors</p>
 
             </div>
 
@@ -60,24 +79,17 @@ function Dashboard() {
 
           <div className="col-md-3">
 
-            <div
-              className="card shadow border-0 text-center p-3"
-              style={{
-                background: "#eaf2ff"
-              }}
-            >
+            <div className="stat-card stat-blue">
 
-              <h1 className="text-primary">
-
+              <h1>
                 {
                   Object.keys(
                     bloodGroupStats
                   ).length
                 }
-
               </h1>
 
-              <h5>Blood Groups</h5>
+              <p>Blood Groups</p>
 
             </div>
 
@@ -85,20 +97,11 @@ function Dashboard() {
 
           <div className="col-md-3">
 
-            <div
-              className="card shadow border-0 text-center p-3"
-              style={{
-                background: "#eaf9ef"
-              }}
-            >
+            <div className="stat-card stat-green">
 
-              <h1 className="text-success">
+              <h1>{donors.length}</h1>
 
-                {donors.length}
-
-              </h1>
-
-              <h5>Total Donations</h5>
+              <p>Total Donations</p>
 
             </div>
 
@@ -106,20 +109,11 @@ function Dashboard() {
 
           <div className="col-md-3">
 
-            <div
-              className="card shadow border-0 text-center p-3"
-              style={{
-                background: "#fff7e6"
-              }}
-            >
+            <div className="stat-card stat-yellow">
 
-              <h1 className="text-warning">
+              <h1>{totalDonors}</h1>
 
-                {totalDonors}
-
-              </h1>
-
-              <h5>Available</h5>
+              <p>Available Units</p>
 
             </div>
 
@@ -127,101 +121,54 @@ function Dashboard() {
 
         </div>
 
-
-        {/* Statistics + Recent Donors */}
+        {/* Chart + Recent Donors */}
 
         <div className="row">
 
-          {/* Blood Group Statistics */}
+          {/* Chart */}
 
-          <div className="col-md-6">
+          <div className="col-lg-8">
 
-            <div className="card shadow">
+            <div className="card shadow border-0 h-100">
 
-              <div className="card-header">
+              <div className="card-header bg-white">
 
                 <h4>
-
-                  Blood Group Statistics
-
+                  Donations by Blood Group
                 </h4>
 
               </div>
 
               <div className="card-body">
 
-                <table className="table table-bordered">
+                <ResponsiveContainer
+                  width="100%"
+                  height={400}
+                >
 
-                  <thead>
+                  <BarChart data={chartData}>
 
-                    <tr>
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                    />
 
-                      <th>Blood Group</th>
+                    <XAxis
+                      dataKey="bloodGroup"
+                    />
 
-                      <th>Donors</th>
+                    <YAxis allowDecimals={false} />
 
-                    </tr>
+                    <Tooltip />
 
-                  </thead>
+                    <Bar
+                      dataKey="donors"
+                      fill="#dc3545"
+                      radius={[5, 5, 0, 0]}
+                    />
 
-                  <tbody>
+                  </BarChart>
 
-                    {
-
-                      Object.keys(
-                        bloodGroupStats
-                      ).length === 0 ?
-
-                      (
-
-                        <tr>
-
-                          <td
-                            colSpan="2"
-                            className="text-center"
-                          >
-
-                            No donors added yet
-
-                          </td>
-
-                        </tr>
-
-                      )
-
-                      :
-
-                      Object.entries(
-                        bloodGroupStats
-                      ).map(
-
-                        ([group, count]) => (
-
-                          <tr key={group}>
-
-                            <td>
-
-                              {group}
-
-                            </td>
-
-                            <td>
-
-                              {count}
-
-                            </td>
-
-                          </tr>
-
-                        )
-
-                      )
-
-                    }
-
-                  </tbody>
-
-                </table>
+                </ResponsiveContainer>
 
               </div>
 
@@ -229,26 +176,23 @@ function Dashboard() {
 
           </div>
 
-
           {/* Recent Donors */}
 
-          <div className="col-md-6">
+          <div className="col-lg-4">
 
-            <div className="card shadow">
+            <div className="card shadow border-0">
 
-              <div className="card-header">
+              <div className="card-header bg-white">
 
                 <h4>
-
                   Recent Donors
-
                 </h4>
 
               </div>
 
               <div className="card-body">
 
-                <table className="table table-bordered">
+                <table className="table">
 
                   <thead>
 
@@ -257,8 +201,6 @@ function Dashboard() {
                       <th>Name</th>
 
                       <th>Blood Group</th>
-
-                      <th>City</th>
 
                     </tr>
 
@@ -275,11 +217,11 @@ function Dashboard() {
                         <tr>
 
                           <td
-                            colSpan="3"
+                            colSpan="2"
                             className="text-center"
                           >
 
-                            No donors found
+                            No Donors Found
 
                           </td>
 
@@ -290,33 +232,19 @@ function Dashboard() {
                       :
 
                       donors
-
                         .slice()
-
                         .reverse()
-
                         .slice(0, 5)
-
                         .map((donor) => (
 
                           <tr key={donor.id}>
 
                             <td>
-
                               {donor.name}
-
                             </td>
 
                             <td>
-
                               {donor.blood_group}
-
-                            </td>
-
-                            <td>
-
-                              {donor.city}
-
                             </td>
 
                           </tr>

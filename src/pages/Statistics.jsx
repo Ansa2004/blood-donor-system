@@ -1,6 +1,16 @@
 import { useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer
+} from "recharts";
+
 function Statistics() {
 
   const [donors, setDonors] = useState([]);
@@ -23,29 +33,88 @@ function Statistics() {
 
   });
 
+  const chartData = Object.entries(
+    bloodGroupStats
+  ).map(([group, count]) => ({
+    bloodGroup: group,
+    donors: count,
+  }));
+
   return (
 
     <MainLayout>
 
       <div className="container mt-4">
 
-        <div className="card shadow">
+        <div className="card shadow border-0">
 
-          <div className="card-header">
+          <div className="card-header bg-danger text-white">
 
-            <h3>Blood Group Statistics</h3>
+            <h3 className="mb-0">
+              Blood Group Statistics
+            </h3>
 
           </div>
 
           <div className="card-body">
 
-            <table className="table table-bordered">
+            {/* Chart */}
 
-              <thead>
+            {chartData.length > 0 ? (
+
+              <ResponsiveContainer
+                width="100%"
+                height={350}
+              >
+
+                <BarChart data={chartData}>
+
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                  />
+
+                  <XAxis
+                    dataKey="bloodGroup"
+                  />
+
+                  <YAxis
+                    allowDecimals={false}
+                  />
+
+                  <Tooltip />
+
+                  <Bar
+                    dataKey="donors"
+                    fill="#dc3545"
+                    radius={[5, 5, 0, 0]}
+                  />
+
+                </BarChart>
+
+              </ResponsiveContainer>
+
+            ) : (
+
+              <p className="text-center">
+                No donors available
+              </p>
+
+            )}
+
+            <hr className="my-4" />
+
+            {/* Table */}
+
+            <table className="table table-bordered table-hover">
+
+              <thead className="table-danger">
 
                 <tr>
+
                   <th>Blood Group</th>
+
                   <th>Number of Donors</th>
+
                 </tr>
 
               </thead>
@@ -60,25 +129,28 @@ function Statistics() {
                       colSpan="2"
                       className="text-center"
                     >
+
                       No donors available
+
                     </td>
 
                   </tr>
 
                 ) : (
 
-                  Object.entries(bloodGroupStats).map(
-                    ([group, count]) => (
+                  Object.entries(
+                    bloodGroupStats
+                  ).map(([group, count]) => (
 
-                      <tr key={group}>
+                    <tr key={group}>
 
-                        <td>{group}</td>
-                        <td>{count}</td>
+                      <td>{group}</td>
 
-                      </tr>
+                      <td>{count}</td>
 
-                    )
-                  )
+                    </tr>
+
+                  ))
 
                 )}
 

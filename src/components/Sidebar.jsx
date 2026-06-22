@@ -7,6 +7,8 @@ import {
   FaFileAlt,
   FaUserCircle
 } from "react-icons/fa";
+import { FaSignOutAlt } from "react-icons/fa";
+import { FaChartBar } from "react-icons/fa";
 
 import { Link } from "react-router-dom";
 
@@ -46,21 +48,25 @@ function Sidebar() {
 
       {role === "admin" && (
         <Link to="/statistics">
-          <FaChartPie /> Statistics
+          <FaChartBar /> Statistics
         </Link>
       )}
 
-      {role === "admin" && (
+      
         <Link to="/reports">
           <FaFileAlt /> Reports
         </Link>
-      )}
+      
 
-      {role === "admin" && (
+      
         <Link to="/profile">
           <FaUserCircle /> Profile
         </Link>
-      )}
+      
+
+      <Link to="/logout">
+  <FaSignOutAlt /> Logout
+</Link>
 
     </div>
   );
