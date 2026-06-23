@@ -23,14 +23,13 @@ function Sidebar() {
         🩸 BDMS
       </h3>
 
-      {/* Admin Only */}
-      {role === "admin" && (
+      
         <Link to="/dashboard">
           <FaTachometerAlt /> Dashboard
         </Link>
-      )}
+      
 
-      {/* Admin + User */}
+      
       <Link to="/add-donor">
         <FaUserPlus /> Add Donor
       </Link>
@@ -39,18 +38,17 @@ function Sidebar() {
         <FaUsers /> View Donors
       </Link>
 
-      {/* Admin Only */}
-      {role === "admin" && (
+     
         <Link to="/search-donors">
           <FaSearch /> Search
         </Link>
-      )}
+      
 
-      {role === "admin" && (
+      
         <Link to="/statistics">
           <FaChartBar /> Statistics
         </Link>
-      )}
+      
 
       
         <Link to="/reports">

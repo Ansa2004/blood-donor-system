@@ -15,3 +15,6 @@ function MainLayout({ children }) {
 }
 
 export default MainLayout;
+
+// The MainLayout component provides a common structure for all pages in the Blood Donor Management System.
+//  Instead of writing the Sidebar and Topbar on every page, I created this reusable layout component.
